@@ -13,6 +13,8 @@ class LocalBloc extends Bloc<LocalEvent, LocalState> {
         super(LocalState()) {
     on<LocalSubmitted>(_onLocalSubmitted);
     on<LocalLoadEvent>(_onLocalLoadEvent);
+    on<UploadToServerEvent>(uploadToServer);
+    on<RemoveContainerEvent>(_removeContainer);
   }
 
   Future<void> _onLocalSubmitted(
@@ -43,6 +45,43 @@ class LocalBloc extends Bloc<LocalEvent, LocalState> {
       final result = await _imageContainerUsecase.loadFromLocalImages();
       emit(state.copyWith(
           status: ImageContainerStatus.success, container: result));
+    } catch (e) {
+      emit(state.copyWith(
+        status: ImageContainerStatus.failure,
+      ));
+    }
+  }
+
+  Future<void> uploadToServer(
+    UploadToServerEvent event,
+    Emitter<LocalState> emit,
+  ) async {
+    emit(state.copyWith(status: ImageContainerStatus.loading));
+    try {
+      await _imageContainerUsecase.saveImagesToServer(
+          containerImages: event.containerImages);
+      emit(state.copyWith(
+        status: ImageContainerStatus.success,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: ImageContainerStatus.failure,
+      ));
+    }
+  }
+
+  Future<void> _removeContainer(
+    RemoveContainerEvent event,
+    Emitter<LocalState> emit,
+  ) async {
+    emit(state.copyWith(status: ImageContainerStatus.loading));
+    try {
+      await _imageContainerUsecase.removeContainer(
+          containernumber: event.containernumber);
+      emit(state.copyWith(
+        status: ImageContainerStatus.success,
+      ));
+      add(LocalLoadEvent());
     } catch (e) {
       emit(state.copyWith(
         status: ImageContainerStatus.failure,

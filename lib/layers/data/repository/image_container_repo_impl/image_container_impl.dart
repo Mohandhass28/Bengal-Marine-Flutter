@@ -73,15 +73,12 @@ class ImageContainerRepoImpl implements ImageContainerRepo {
       final formData = FormData();
 
       // Add text fields
-      formData.fields.addAll(
-        [
-          MapEntry('user_id', containerImages['user_id'].toString()),
-          MapEntry('container_no', containerImages['number']),
-          MapEntry('yard_id', containerImages['yard_id'].toString()),
-          MapEntry('container_image_type', containerImages['type']),
-          MapEntry('image_list', containerImages['image_list']),
-        ],
-      );
+      formData.fields.addAll([
+        MapEntry('user_id', containerImages['user_id'].toString()),
+        MapEntry('container_no', containerImages['number']),
+        MapEntry('yard_id', containerImages['yard_id'].toString()),
+        MapEntry('container_image_type', containerImages['type'].toString()),
+      ]);
 
       // Add images
       final imageList = containerImages['image_list'] as List;
@@ -89,13 +86,13 @@ class ImageContainerRepoImpl implements ImageContainerRepo {
         final imagePath = imageList[i]['image'];
         if (imagePath.startsWith('http')) {
           // Handle network images
-          formData.fields.add(MapEntry('images[$i]', imagePath));
+          formData.fields.add(MapEntry('file[$i]', imagePath));
         } else {
           // Handle local file images
           final file = File(imagePath);
           if (await file.exists()) {
             formData.files.add(MapEntry(
-              'images[$i]',
+              'file[$i]',
               await MultipartFile.fromFile(
                 file.path,
                 filename: 'image_$i.jpg',
@@ -106,7 +103,7 @@ class ImageContainerRepoImpl implements ImageContainerRepo {
         }
       }
 
-      final result = await _api.getData(
+      await _api.getData(
         endpoint: "auth/upload_container_image",
         data: formData,
         method: 'POST',
@@ -138,6 +135,26 @@ class ImageContainerRepoImpl implements ImageContainerRepo {
       return finalData;
     } catch (e) {
       print('Error loading images: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> removeContainer({required String containernumber}) async {
+    try {
+      final result = await _localStorage.loadImages();
+      final List<dynamic> decodedData = json.decode(result);
+      final List<Map<String, dynamic>> data =
+          decodedData.map((item) => Map<String, dynamic>.from(item)).toList();
+
+      final List<Map<String, dynamic>> filteredData = data
+          .where((element) => element['container_number'] != containernumber)
+          .toList();
+
+      final String updatedResult = json.encode(filteredData);
+      await _localStorage.saveImages(containerImages: updatedResult);
+    } catch (e) {
+      print('Error removing container: $e');
       rethrow;
     }
   }

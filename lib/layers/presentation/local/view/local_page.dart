@@ -7,8 +7,9 @@ import 'package:portfolio/layers/presentation/local/bloc/local_bloc.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class LocalPage extends StatefulWidget {
-  const LocalPage({super.key});
-
+  const LocalPage({super.key, required this.user_id, required this.yard_id});
+  final int user_id;
+  final int yard_id;
   @override
   State<LocalPage> createState() => _LocalPageState();
 }
@@ -61,17 +62,28 @@ class _LocalPageState extends State<LocalPage> {
                   ),
                 ),
               ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: state.container.length,
-                  itemBuilder: (context, index) => _localContainer(
-                    containerNumber: state.container[index].containerNumber,
-                    imageList: state.container[index].imageList,
-                    type: state.container[index].type,
-                    dateAndTime: state.container[index].dateAndTime,
+              if (state.container.isEmpty)
+                Center(
+                  child: Text(
+                    'No images available',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
-              ),
+              if (state.container.isNotEmpty)
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: state.container.length,
+                    itemBuilder: (context, index) => _localContainer(
+                      containerNumber: state.container[index].containerNumber,
+                      imageList: state.container[index].imageList,
+                      type: state.container[index].type,
+                      dateAndTime: state.container[index].dateAndTime,
+                    ),
+                  ),
+                ),
             ],
           ),
         );
@@ -145,7 +157,26 @@ class _LocalPageState extends State<LocalPage> {
                     size: 24, // Reduced icon size to fit smaller height
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    _localBloc.add(
+                      UploadToServerEvent(
+                        containerImages: {
+                          'user_id': widget.user_id,
+                          'yard_id': widget.yard_id,
+                          'number': containerNumber,
+                          'image_list': imageList,
+                          'type': type == 'pre'
+                              ? 1
+                              : type == 'post'
+                                  ? 2
+                                  : 3,
+                        },
+                      ),
+                    );
+                    _localBloc.add(
+                      RemoveContainerEvent(containernumber: containerNumber),
+                    );
+                  },
                   style: ButtonStyle(
                     alignment: Alignment.center,
                     backgroundColor: WidgetStateProperty.all<Color>(

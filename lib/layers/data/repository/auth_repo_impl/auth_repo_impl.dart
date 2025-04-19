@@ -64,8 +64,7 @@ class AuthRepoImpl implements AuthRepo {
 
   @override
   Future<void> logout() {
-    // Implement the logic to perform logout
-    throw UnimplementedError();
+    return localStorage.setData(Key: 'user', Value: '');
   }
 
   // Helper method to create default user

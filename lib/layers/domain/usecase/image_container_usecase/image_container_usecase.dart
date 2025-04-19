@@ -14,6 +14,10 @@ class ImageContainerUsecase {
         containerImages: newcontainerImage);
   }
 
+  Future<void> removeContainer({required String containernumber}) async {
+    await imageContainerRepo.removeContainer(containernumber: containernumber);
+  }
+
   Future<List<LocalContainerModel>> loadFromLocalImages() async {
     return await imageContainerRepo.loadFromLocalImages();
   }

@@ -347,7 +347,8 @@ class _UploadPageState extends State<UploadPage> {
                                         buttonText: "Save to Local",
                                         onPressFun: () {
                                           if (_formKey.currentState!
-                                              .validate()) {
+                                                  .validate() &&
+                                              uploadState.images.isNotEmpty) {
                                             if (uploadState.type ==
                                                     ContainerType.pre ||
                                                 uploadState.type ==
@@ -387,7 +388,30 @@ class _UploadPageState extends State<UploadPage> {
                                       fontSize: 15,
                                       fontWeight: FontWeight.w400,
                                       buttonText: "Upload to server",
-                                      onPressFun: () {},
+                                      onPressFun: () {
+                                        if (_formKey.currentState!.validate() &&
+                                            uploadState.images.isNotEmpty) {
+                                          _uploadBloc.add(
+                                            UploadSubmitted(
+                                              containerImages: {
+                                                'user_id': widget.user_id,
+                                                'yard_id': widget.yard_id,
+                                                'number':
+                                                    _textEditingController.text,
+                                                'image_list':
+                                                    uploadState.images,
+                                                'type': uploadState.type ==
+                                                        ContainerType.pre
+                                                    ? 1
+                                                    : uploadState.type ==
+                                                            ContainerType.post
+                                                        ? 2
+                                                        : 3,
+                                              },
+                                            ),
+                                          );
+                                        }
+                                      },
                                     ),
                                   ],
                                 ),

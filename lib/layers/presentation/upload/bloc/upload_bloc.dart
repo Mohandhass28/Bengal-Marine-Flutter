@@ -145,6 +145,17 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
       ));
     });
 
-    on<UploadSubmitted>((event, emit) async {});
+    on<UploadSubmitted>((event, emit) async {
+      emit(state.copyWith(status: ImageContainerSubmitStatus.loading));
+      try {
+        await _imageContainerUsecase.saveImagesToServer(
+            containerImages: event.containerImages);
+        add(RemoveAllvent());
+      } catch (e) {
+        emit(state.copyWith(
+          status: ImageContainerSubmitStatus.failure,
+        ));
+      }
+    });
   }
 }

@@ -9,4 +9,6 @@ abstract class ImageContainerRepo {
       {required Map<String, dynamic> containerImages});
   Future<List<ServerContainerModel>> loadFromServerImages(
       {required Map<String, dynamic> params});
+
+  Future<void> removeContainer({required String containernumber});
 }

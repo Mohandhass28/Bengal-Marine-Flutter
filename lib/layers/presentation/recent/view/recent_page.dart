@@ -234,23 +234,24 @@ class _RecentPageState extends State<RecentPage> {
           const Padding(
             padding: EdgeInsets.only(top: 10),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                imageList[0]["image_type"] == 1
-                    ? "Pre"
-                    : imageList[0]["image_type"] == 2
-                        ? "Post"
-                        : "AV/UR",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
+          if (imageList.isNotEmpty)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  imageList[0]["image_type"] == 1
+                      ? "Pre"
+                      : imageList[0]["image_type"] == 2
+                          ? "Post"
+                          : "AV/UR",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
           const Padding(
             padding: EdgeInsets.only(top: 16),
           ),
@@ -263,7 +264,18 @@ class _RecentPageState extends State<RecentPage> {
                 runSpacing: 10,
                 spacing: 10,
                 children: [
-                  ...imageList.map((e) => _getImage(e["image"])),
+                  if (imageList.isNotEmpty)
+                    ...imageList.map((e) => _getImage(e["image"]))
+                  else
+                    Center(
+                      child: Text(
+                        'No images available',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ],

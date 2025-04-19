@@ -5,6 +5,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:portfolio/core/components/ButtomComponent/Button.dart';
 import 'package:portfolio/layers/domain/usecase/image_container_usecase/image_container_usecase.dart';
+import 'package:portfolio/layers/presentation/auth/bloc/auth_bloc.dart';
 import 'package:portfolio/layers/presentation/local/bloc/local_bloc.dart';
 import 'package:portfolio/layers/presentation/recent/bloc/recent_bloc.dart';
 import 'package:portfolio/layers/presentation/upload/bloc/upload_bloc.dart';
@@ -28,6 +29,7 @@ class _HomePageState extends State<HomePage> {
   late final LocalBloc _localBloc;
   late final RecentBloc _recentBloc;
   late final ImageContainerUsecase _imageContainerUsecase;
+  late final AuthBloc _authBloc;
 
   late List<Widget> _pages;
   @override
@@ -37,6 +39,7 @@ class _HomePageState extends State<HomePage> {
     _uploadBloc = UploadBloc(
       imageContainerUsecase: _imageContainerUsecase,
     );
+    _authBloc = context.read<AuthBloc>();
     _localBloc = context.read<LocalBloc>();
     _recentBloc = context.read<RecentBloc>();
     _pages = [
@@ -50,7 +53,15 @@ class _HomePageState extends State<HomePage> {
           yard_id: widget.yard_id,
         ),
       ),
-      BlocProvider.value(value: _localBloc, child: const LocalPage()),
+      MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: _localBloc),
+        ],
+        child: LocalPage(
+          user_id: widget.user_id,
+          yard_id: widget.yard_id,
+        ),
+      ),
       MultiBlocProvider(
         providers: [
           BlocProvider.value(value: _recentBloc),
@@ -73,57 +84,94 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.document_scanner,
-              fill: 1,
-            ),
-            label: 'Upload',
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        return Scaffold(
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.document_scanner,
+                  fill: 1,
+                ),
+                label: 'Upload',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.upload,
+                  fill: 1,
+                ),
+                label: 'Local',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.recent_actors,
+                  fill: 1,
+                ),
+                label: 'Recent',
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.upload,
-              fill: 1,
+          appBar: AppBar(
+            scrolledUnderElevation: 0,
+            backgroundColor: Colors.white,
+            toolbarHeight: 100,
+            leadingWidth: 120,
+            leading: Image(
+              image: AssetImage("assets/images/NoBackGround.png"),
             ),
-            label: 'Local',
+            actionsIconTheme: IconThemeData(
+              color: Colors.black,
+              size: 34,
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: IconButton(
+                  icon: const Icon(Icons.logout),
+                  onPressed: () {
+                    _dialogBuilder(context);
+                  },
+                ),
+              )
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.recent_actors,
-              fill: 1,
+          body: _pages[_selectedIndex],
+        );
+      },
+    );
+  }
+
+  void _dialogBuilder(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Logout'),
+        content: const Text('Are you sure you want to logout?'),
+        actions: <Widget>[
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: Theme.of(context).textTheme.labelLarge,
             ),
-            label: 'Recent',
+            child: const Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: Theme.of(context).textTheme.labelLarge,
+            ),
+            child: const Text('Logout'),
+            onPressed: () {
+              _authBloc.add(LogoutRequested());
+              Navigator.of(context).pop();
+            },
           ),
         ],
       ),
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        backgroundColor: Colors.white,
-        toolbarHeight: 100,
-        leadingWidth: 120,
-        leading: Image(
-          image: AssetImage("assets/images/NoBackGround.png"),
-        ),
-        actionsIconTheme: IconThemeData(
-          color: Colors.black,
-          size: 34,
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () {},
-            ),
-          )
-        ],
-      ),
-      body: _pages[_selectedIndex],
     );
   }
 
