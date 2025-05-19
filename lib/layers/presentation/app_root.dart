@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:portfolio/layers/data/repository/auth_repo_impl/auth_repo_impl.dart';
-import 'package:portfolio/layers/data/repository/image_container_repo_impl/image_container_impl.dart';
-import 'package:portfolio/layers/data/source/local/local_storage.dart';
-import 'package:portfolio/layers/data/source/network/api.dart';
-import 'package:portfolio/layers/domain/usecase/auth_usecase/auth_usecase.dart';
-import 'package:portfolio/layers/domain/usecase/image_container_usecase/image_container_usecase.dart';
-import 'package:portfolio/layers/presentation/auth/bloc/auth_bloc.dart';
-import 'package:portfolio/layers/presentation/auth/view/auth_page.dart';
-import 'package:portfolio/layers/presentation/home/view/home_page.dart';
-import 'package:portfolio/layers/presentation/local/bloc/local_bloc.dart';
-import 'package:portfolio/layers/presentation/login/view/login_page.dart';
-import 'package:portfolio/layers/presentation/recent/bloc/recent_bloc.dart';
-import 'package:portfolio/main.dart';
+import 'package:Bengal_Marine/layers/data/repository/auth_repo_impl/auth_repo_impl.dart';
+import 'package:Bengal_Marine/layers/data/repository/image_container_repo_impl/image_container_impl.dart';
+import 'package:Bengal_Marine/layers/data/source/local/local_storage.dart';
+import 'package:Bengal_Marine/layers/data/source/network/api.dart';
+import 'package:Bengal_Marine/layers/domain/usecase/auth_usecase/auth_usecase.dart';
+import 'package:Bengal_Marine/layers/domain/usecase/image_container_usecase/image_container_usecase.dart';
+import 'package:Bengal_Marine/layers/presentation/auth/bloc/auth_bloc.dart';
+import 'package:Bengal_Marine/layers/presentation/auth/view/auth_page.dart';
+import 'package:Bengal_Marine/layers/presentation/home/view/home_page.dart';
+import 'package:Bengal_Marine/layers/presentation/local/bloc/local_bloc.dart';
+import 'package:Bengal_Marine/layers/presentation/login/view/login_page.dart';
+import 'package:Bengal_Marine/layers/presentation/recent/bloc/recent_bloc.dart';
+import 'package:Bengal_Marine/main.dart';
 
 class AppRoot extends StatefulWidget {
   const AppRoot({super.key});

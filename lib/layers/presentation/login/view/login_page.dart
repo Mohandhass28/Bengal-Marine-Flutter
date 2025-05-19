@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:portfolio/layers/domain/usecase/auth_usecase/auth_usecase.dart';
-import 'package:portfolio/layers/presentation/auth/bloc/auth_bloc.dart';
-import 'package:portfolio/core/components/ButtomComponent/Button.dart';
-import 'package:portfolio/layers/presentation/login/components/InputComponent/input_comp.dart';
-import 'package:portfolio/layers/presentation/login/bloc/login_bloc.dart';
+import 'package:Bengal_Marine/layers/domain/usecase/auth_usecase/auth_usecase.dart';
+import 'package:Bengal_Marine/layers/presentation/auth/bloc/auth_bloc.dart';
+import 'package:Bengal_Marine/core/components/ButtomComponent/Button.dart';
+import 'package:Bengal_Marine/layers/presentation/login/components/InputComponent/input_comp.dart';
+import 'package:Bengal_Marine/layers/presentation/login/bloc/login_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   final AuthUsecase authUsecase;
@@ -61,72 +61,74 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 child: SafeArea(
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Column(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(top: 30),
-                              child: Image(
-                                image: AssetImage(
-                                    'assets/images/NoBackGround.png'),
-                                height: 210,
+                  child: SingleChildScrollView(
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(top: 30),
+                                child: Image(
+                                  image: AssetImage(
+                                      'assets/images/NoBackGround.png'),
+                                  height: 210,
+                                ),
                               ),
-                            ),
-                            const Text(
-                              "Log In",
-                              style: TextStyle(
-                                  fontSize: 27, fontWeight: FontWeight.w500),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 10),
-                            ),
-                            const Text(
-                              "Log into your account",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w400),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 20),
-                            ),
-                            InputComponent(
-                              text: "Email ID",
-                              textInputControl: _emailController,
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 20),
-                            ),
-                            InputComponent(
-                              text: "Password",
-                              textInputControl: _passwordController,
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 50),
-                            ),
-                            ButtonComp(
-                              buttonText: "Log In",
-                              onPressFun: () {
-                                _loginBloc.add(
-                                  LoginSubmitted(
-                                    email: _emailController.text,
-                                    password: _passwordController.text,
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      if (state is LoginLoading)
-                        Container(
-                          color: Colors.black.withOpacity(0.5),
-                          child: const Center(
-                            child: CircularProgressIndicator(),
+                              const Text(
+                                "Log In",
+                                style: TextStyle(
+                                    fontSize: 27, fontWeight: FontWeight.w500),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.only(top: 10),
+                              ),
+                              const Text(
+                                "Log into your account",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w400),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.only(top: 20),
+                              ),
+                              InputComponent(
+                                text: "Email ID",
+                                textInputControl: _emailController,
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.only(top: 20),
+                              ),
+                              InputComponent(
+                                text: "Password",
+                                textInputControl: _passwordController,
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.only(top: 50),
+                              ),
+                              ButtonComp(
+                                buttonText: "Log In",
+                                onPressFun: () {
+                                  _loginBloc.add(
+                                    LoginSubmitted(
+                                      email: _emailController.text,
+                                      password: _passwordController.text,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ),
-                    ],
+                        if (state is LoginLoading)
+                          Container(
+                            color: Colors.black.withOpacity(0.5),
+                            child: const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                 ),
               );

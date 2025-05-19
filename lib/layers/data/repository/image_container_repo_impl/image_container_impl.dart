@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:portfolio/layers/data/model/local_container_model/local_container_model.dart';
-import 'package:portfolio/layers/data/model/server_container_model/server_container_model.dart';
-import 'package:portfolio/layers/data/source/local/local_storage.dart';
-import 'package:portfolio/layers/data/source/network/api.dart';
-import 'package:portfolio/layers/domain/repository/image_container_repo/image_container.dart';
+import 'package:Bengal_Marine/layers/data/model/local_container_model/local_container_model.dart';
+import 'package:Bengal_Marine/layers/data/model/server_container_model/server_container_model.dart';
+import 'package:Bengal_Marine/layers/data/source/local/local_storage.dart';
+import 'package:Bengal_Marine/layers/data/source/network/api.dart';
+import 'package:Bengal_Marine/layers/domain/repository/image_container_repo/image_container.dart';
 import 'package:http_parser/http_parser.dart';
 
 class ImageContainerRepoImpl implements ImageContainerRepo {

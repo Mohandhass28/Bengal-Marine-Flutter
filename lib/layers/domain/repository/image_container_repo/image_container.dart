@@ -1,5 +1,5 @@
-import 'package:portfolio/layers/data/model/local_container_model/local_container_model.dart';
-import 'package:portfolio/layers/data/model/server_container_model/server_container_model.dart';
+import 'package:Bengal_Marine/layers/data/model/local_container_model/local_container_model.dart';
+import 'package:Bengal_Marine/layers/data/model/server_container_model/server_container_model.dart';
 
 abstract class ImageContainerRepo {
   Future<void> saveImagesTolocal(

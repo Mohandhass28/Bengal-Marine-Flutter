@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:portfolio/layers/domain/usecase/auth_usecase/auth_usecase.dart';
-import 'package:portfolio/layers/presentation/auth/bloc/auth_bloc.dart';
-import 'package:portfolio/layers/presentation/home/view/home_page.dart';
-import 'package:portfolio/layers/presentation/login/view/login_page.dart';
+import 'package:Bengal_Marine/layers/domain/usecase/auth_usecase/auth_usecase.dart';
+import 'package:Bengal_Marine/layers/presentation/auth/bloc/auth_bloc.dart';
+import 'package:Bengal_Marine/layers/presentation/home/view/home_page.dart';
+import 'package:Bengal_Marine/layers/presentation/login/view/login_page.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});

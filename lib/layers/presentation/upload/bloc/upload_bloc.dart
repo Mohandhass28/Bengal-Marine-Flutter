@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:portfolio/layers/domain/usecase/image_container_usecase/image_container_usecase.dart';
-import 'package:portfolio/layers/presentation/upload/view/upload_page.dart';
+import 'package:Bengal_Marine/layers/domain/usecase/image_container_usecase/image_container_usecase.dart';
+import 'package:Bengal_Marine/layers/presentation/upload/view/upload_page.dart';
 
 part 'upload_event.dart';
 part 'upload_state.dart';

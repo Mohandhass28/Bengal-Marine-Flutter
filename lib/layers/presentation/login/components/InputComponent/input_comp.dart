@@ -32,6 +32,7 @@ class _InputComponentState extends State<InputComponent> {
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,
+            floatingLabelBehavior: FloatingLabelBehavior.never,
             labelStyle: const TextStyle(color: Colors.black),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),

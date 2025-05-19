@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:portfolio/layers/presentation/recent/bloc/recent_bloc.dart';
+import 'package:Bengal_Marine/layers/presentation/recent/bloc/recent_bloc.dart';
 
 class RecentPage extends StatefulWidget {
   const RecentPage({super.key, required this.user_id, required this.yard_id});
@@ -59,20 +59,11 @@ class _RecentPageState extends State<RecentPage> {
       listeners: [
         BlocListener<RecentBloc, RecentState>(
           listener: (context, state) {
-            print("container ${state.container}");
             if (state.status == ImageContainerStatus.failure) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text('Failed to load images: ${state.status}'),
                   backgroundColor: Colors.red,
-                ),
-              );
-            }
-            if (state.status == ImageContainerStatus.success) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Images loaded successfully'),
-                  backgroundColor: Colors.green,
                 ),
               );
             }

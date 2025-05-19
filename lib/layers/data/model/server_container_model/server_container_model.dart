@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:portfolio/layers/domain/entity/server_container_entity/server_container_entity.dart';
+import 'package:Bengal_Marine/layers/domain/entity/server_container_entity/server_container_entity.dart';
 
 class ServerContainerModel extends ContainerEntity {
   ServerContainerModel({

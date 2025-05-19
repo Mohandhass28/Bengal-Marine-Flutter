@@ -3,16 +3,16 @@ import 'package:flutter/src/services/message_codec.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:portfolio/core/components/ButtomComponent/Button.dart';
-import 'package:portfolio/layers/domain/usecase/image_container_usecase/image_container_usecase.dart';
-import 'package:portfolio/layers/presentation/auth/bloc/auth_bloc.dart';
-import 'package:portfolio/layers/presentation/local/bloc/local_bloc.dart';
-import 'package:portfolio/layers/presentation/recent/bloc/recent_bloc.dart';
-import 'package:portfolio/layers/presentation/upload/bloc/upload_bloc.dart';
-import 'package:portfolio/layers/presentation/upload/view/camera/camera_page.dart';
-import 'package:portfolio/layers/presentation/local/view/local_page.dart';
-import 'package:portfolio/layers/presentation/recent/view/recent_page.dart';
-import 'package:portfolio/layers/presentation/upload/view/upload_page.dart';
+import 'package:Bengal_Marine/core/components/ButtomComponent/Button.dart';
+import 'package:Bengal_Marine/layers/domain/usecase/image_container_usecase/image_container_usecase.dart';
+import 'package:Bengal_Marine/layers/presentation/auth/bloc/auth_bloc.dart';
+import 'package:Bengal_Marine/layers/presentation/local/bloc/local_bloc.dart';
+import 'package:Bengal_Marine/layers/presentation/recent/bloc/recent_bloc.dart';
+import 'package:Bengal_Marine/layers/presentation/upload/bloc/upload_bloc.dart';
+import 'package:Bengal_Marine/layers/presentation/upload/view/camera/camera_page.dart';
+import 'package:Bengal_Marine/layers/presentation/local/view/local_page.dart';
+import 'package:Bengal_Marine/layers/presentation/recent/view/recent_page.dart';
+import 'package:Bengal_Marine/layers/presentation/upload/view/upload_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.user_id, required this.yard_id});

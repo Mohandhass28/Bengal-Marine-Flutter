@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.portfolio"
+    namespace = "com.example.Bengal_Marine"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -20,7 +20,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.portfolio"
+        applicationId "com.example.Bengal_Marine"
         // Set minimum SDK version to 21 or higher to support newer Android features
         minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion

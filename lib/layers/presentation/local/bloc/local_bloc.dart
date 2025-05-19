@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:portfolio/layers/data/model/local_container_model/local_container_model.dart';
-import 'package:portfolio/layers/domain/usecase/image_container_usecase/image_container_usecase.dart';
+import 'package:Bengal_Marine/layers/data/model/local_container_model/local_container_model.dart';
+import 'package:Bengal_Marine/layers/domain/usecase/image_container_usecase/image_container_usecase.dart';
 
 part 'local_event.dart';
 part 'local_state.dart';
@@ -63,6 +63,8 @@ class LocalBloc extends Bloc<LocalEvent, LocalState> {
       emit(state.copyWith(
         status: ImageContainerStatus.success,
       ));
+      add(RemoveContainerEvent(
+          containernumber: event.containerImages['number']));
     } catch (e) {
       emit(state.copyWith(
         status: ImageContainerStatus.failure,

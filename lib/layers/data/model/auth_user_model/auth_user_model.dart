@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:portfolio/layers/domain/entity/auth_user_entity/auth_user_entity.dart';
+import 'package:Bengal_Marine/layers/domain/entity/auth_user_entity/auth_user_entity.dart';
 
 class AuthUserModel extends AuthUserEntity {
   AuthUserModel({

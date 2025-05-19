@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:portfolio/layers/data/model/server_container_model/server_container_model.dart';
-import 'package:portfolio/layers/domain/usecase/image_container_usecase/image_container_usecase.dart';
+import 'package:Bengal_Marine/layers/data/model/server_container_model/server_container_model.dart';
+import 'package:Bengal_Marine/layers/domain/usecase/image_container_usecase/image_container_usecase.dart';
 
 part 'recent_event.dart';
 part 'recent_state.dart';

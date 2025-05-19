@@ -1,6 +1,6 @@
-import 'package:portfolio/layers/data/model/local_container_model/local_container_model.dart';
-import 'package:portfolio/layers/data/model/server_container_model/server_container_model.dart';
-import 'package:portfolio/layers/domain/repository/image_container_repo/image_container.dart';
+import 'package:Bengal_Marine/layers/data/model/local_container_model/local_container_model.dart';
+import 'package:Bengal_Marine/layers/data/model/server_container_model/server_container_model.dart';
+import 'package:Bengal_Marine/layers/domain/repository/image_container_repo/image_container.dart';
 
 class ImageContainerUsecase {
   final ImageContainerRepo imageContainerRepo;

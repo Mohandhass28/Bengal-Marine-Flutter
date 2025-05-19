@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:portfolio/layers/domain/entity/local_container_entity/local_container_entity.dart';
+import 'package:Bengal_Marine/layers/domain/entity/local_container_entity/local_container_entity.dart';
 
 class LocalContainerModel extends ContainerEntity {
   LocalContainerModel({

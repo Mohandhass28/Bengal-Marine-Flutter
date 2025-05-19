@@ -1,11 +1,14 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:Bengal_Marine/core/utils/connectivity_checker.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:portfolio/core/components/ButtomComponent/Button.dart';
-import 'package:portfolio/layers/presentation/local/bloc/local_bloc.dart';
-import 'package:portfolio/layers/presentation/upload/bloc/upload_bloc.dart';
-import 'package:portfolio/layers/presentation/upload/view/camera/camera_page.dart';
+import 'package:Bengal_Marine/core/components/ButtomComponent/Button.dart';
+import 'package:Bengal_Marine/layers/presentation/local/bloc/local_bloc.dart';
+import 'package:Bengal_Marine/layers/presentation/upload/bloc/upload_bloc.dart';
+import 'package:Bengal_Marine/layers/presentation/upload/view/camera/camera_page.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class UploadPage extends StatefulWidget {
@@ -30,16 +33,36 @@ class _UploadPageState extends State<UploadPage> {
 
   final _textEditingController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  StreamSubscription? _connectivitySubscription;
+  final hasInternet = ValueNotifier<bool>(false);
 
   @override
   void initState() {
     super.initState();
     _uploadBloc = context.read<UploadBloc>();
     _localBloc = context.read<LocalBloc>();
+    _checkInitialConnectivity();
+    _setupConnectivityListener();
+  }
+
+  // Add this method to check initial connectivity
+  Future<void> _checkInitialConnectivity() async {
+    final result = await Connectivity().checkConnectivity();
+    hasInternet.value = result != ConnectivityResult.none;
+  }
+
+  void _setupConnectivityListener() {
+    _connectivitySubscription =
+        ConnectivityChecker.connectionStream.listen((result) {
+      hasInternet.value = result != ConnectivityResult.none;
+    });
   }
 
   @override
   void dispose() {
+    _connectivitySubscription?.cancel();
+    _textEditingController.dispose();
+    hasInternet.dispose();
     super.dispose();
   }
 
@@ -158,6 +181,8 @@ class _UploadPageState extends State<UploadPage> {
                     child: Form(
                       key: _formKey,
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
@@ -391,25 +416,37 @@ class _UploadPageState extends State<UploadPage> {
                                       onPressFun: () {
                                         if (_formKey.currentState!.validate() &&
                                             uploadState.images.isNotEmpty) {
-                                          _uploadBloc.add(
-                                            UploadSubmitted(
-                                              containerImages: {
-                                                'user_id': widget.user_id,
-                                                'yard_id': widget.yard_id,
-                                                'number':
-                                                    _textEditingController.text,
-                                                'image_list':
-                                                    uploadState.images,
-                                                'type': uploadState.type ==
-                                                        ContainerType.pre
-                                                    ? 1
-                                                    : uploadState.type ==
-                                                            ContainerType.post
-                                                        ? 2
-                                                        : 3,
-                                              },
-                                            ),
-                                          );
+                                          if (hasInternet.value) {
+                                            _uploadBloc.add(
+                                              UploadSubmitted(
+                                                containerImages: {
+                                                  'user_id': widget.user_id,
+                                                  'yard_id': widget.yard_id,
+                                                  'number':
+                                                      _textEditingController
+                                                          .text,
+                                                  'image_list':
+                                                      uploadState.images,
+                                                  'type': uploadState.type ==
+                                                          ContainerType.pre
+                                                      ? 1
+                                                      : uploadState.type ==
+                                                              ContainerType.post
+                                                          ? 2
+                                                          : 3,
+                                                },
+                                              ),
+                                            );
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                    'No internet connection'),
+                                                backgroundColor: Colors.red,
+                                              ),
+                                            );
+                                          }
                                         }
                                       },
                                     ),

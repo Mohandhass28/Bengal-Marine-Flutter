@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:portfolio/layers/domain/usecase/auth_usecase/auth_usecase.dart';
+import 'package:Bengal_Marine/layers/domain/usecase/auth_usecase/auth_usecase.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';

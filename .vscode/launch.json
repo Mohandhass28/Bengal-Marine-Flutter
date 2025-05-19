@@ -5,32 +5,32 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "portfolio (web)",
+      "name": "Bengal_Marine (mobile)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "debug",
-      "deviceId": "chrome"
+      "deviceId": "emulator-5554"
     },
     {
-      "name": "portfolio (android)",
+      "name": "Bengal_Marine (android)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "debug",
       "deviceId": "android"
     },
     {
-      "name": "portfolio",
+      "name": "Bengal_Marine",
       "request": "launch",
       "type": "dart"
     },
     {
-      "name": "portfolio (profile mode)",
+      "name": "Bengal_Marine (profile mode)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile"
     },
     {
-      "name": "portfolio (release mode)",
+      "name": "Bengal_Marine (release mode)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"

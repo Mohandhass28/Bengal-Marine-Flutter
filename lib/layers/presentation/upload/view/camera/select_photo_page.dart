@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:portfolio/layers/presentation/upload/bloc/upload_bloc.dart';
-import 'package:portfolio/layers/presentation/upload/view/upload_page.dart';
+import 'package:Bengal_Marine/layers/presentation/upload/bloc/upload_bloc.dart';
+import 'package:Bengal_Marine/layers/presentation/upload/view/upload_page.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class SelectPhotoPage extends StatefulWidget {
@@ -53,7 +53,7 @@ class _SelectPhotoPageState extends State<SelectPhotoPage> {
         children: [
           getImage(widget.imagePath),
           Padding(
-            padding: const EdgeInsets.only(bottom: 30),
+            padding: const EdgeInsets.only(bottom: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

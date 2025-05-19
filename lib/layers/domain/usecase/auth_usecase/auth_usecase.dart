@@ -1,6 +1,6 @@
-import 'package:portfolio/layers/data/model/auth_user_model/auth_user_model.dart';
-import 'package:portfolio/layers/domain/entity/auth_user_entity/auth_user_entity.dart';
-import 'package:portfolio/layers/domain/repository/auth_repo/auth_repo.dart';
+import 'package:Bengal_Marine/layers/data/model/auth_user_model/auth_user_model.dart';
+import 'package:Bengal_Marine/layers/domain/entity/auth_user_entity/auth_user_entity.dart';
+import 'package:Bengal_Marine/layers/domain/repository/auth_repo/auth_repo.dart';
 
 class AuthUsecase {
   final AuthRepo authRepo;

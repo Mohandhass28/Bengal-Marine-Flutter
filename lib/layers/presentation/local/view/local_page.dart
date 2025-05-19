@@ -1,10 +1,13 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:Bengal_Marine/core/utils/connectivity_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:portfolio/core/components/ButtomComponent/Button.dart';
-import 'package:portfolio/layers/presentation/local/bloc/local_bloc.dart';
+import 'package:Bengal_Marine/core/components/ButtomComponent/Button.dart';
+import 'package:Bengal_Marine/layers/presentation/local/bloc/local_bloc.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class LocalPage extends StatefulWidget {
   const LocalPage({super.key, required this.user_id, required this.yard_id});
@@ -16,12 +19,35 @@ class LocalPage extends StatefulWidget {
 
 class _LocalPageState extends State<LocalPage> {
   late final LocalBloc _localBloc;
+  StreamSubscription? _connectivitySubscription;
+  final hasInternet = ValueNotifier<bool>(false);
 
   @override
   void initState() {
     super.initState();
     _localBloc = context.read<LocalBloc>();
+    _setupConnectivityListener();
+    _checkInitialConnectivity();
     _localBloc.add(LocalLoadEvent());
+  }
+
+  Future<void> _checkInitialConnectivity() async {
+    final result = await Connectivity().checkConnectivity();
+    hasInternet.value = result != ConnectivityResult.none;
+  }
+
+  void _setupConnectivityListener() {
+    _connectivitySubscription =
+        ConnectivityChecker.connectionStream.listen((result) {
+      hasInternet.value = result != ConnectivityResult.none;
+    });
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription?.cancel();
+    hasInternet.dispose();
+    super.dispose();
   }
 
   @override
@@ -81,6 +107,7 @@ class _LocalPageState extends State<LocalPage> {
                       imageList: state.container[index].imageList,
                       type: state.container[index].type,
                       dateAndTime: state.container[index].dateAndTime,
+                      state: state,
                     ),
                   ),
                 ),
@@ -120,6 +147,7 @@ class _LocalPageState extends State<LocalPage> {
     required List<Map<String, dynamic>> imageList,
     required String type,
     required DateTime dateAndTime,
+    required LocalState state,
   }) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
@@ -157,25 +185,40 @@ class _LocalPageState extends State<LocalPage> {
                     size: 24, // Reduced icon size to fit smaller height
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
-                  onPressed: () {
-                    _localBloc.add(
-                      UploadToServerEvent(
-                        containerImages: {
-                          'user_id': widget.user_id,
-                          'yard_id': widget.yard_id,
-                          'number': containerNumber,
-                          'image_list': imageList,
-                          'type': type == 'pre'
-                              ? 1
-                              : type == 'post'
-                                  ? 2
-                                  : 3,
-                        },
-                      ),
-                    );
-                    _localBloc.add(
-                      RemoveContainerEvent(containernumber: containerNumber),
-                    );
+                  onPressed: () async {
+                    if (hasInternet.value) {
+                      _localBloc.add(
+                        UploadToServerEvent(
+                          containerImages: {
+                            'user_id': widget.user_id,
+                            'yard_id': widget.yard_id,
+                            'number': containerNumber,
+                            'image_list': imageList,
+                            'type': type == 'pre'
+                                ? 1
+                                : type == 'post'
+                                    ? 2
+                                    : 3,
+                          },
+                        ),
+                      );
+                      if (state.status == ImageContainerStatus.success) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content:
+                                Text('Images Uploaded to server successfully'),
+                            backgroundColor: Colors.green,
+                          ),
+                        );
+                      }
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('No internet connection'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
                   },
                   style: ButtonStyle(
                     alignment: Alignment.center,
